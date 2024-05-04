@@ -13,4 +13,10 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @Column({ type: 'datetime' })
+  created_at: Date;
+
+  @Column({ type: 'datetime' })
+  updated_at: Date;
 }

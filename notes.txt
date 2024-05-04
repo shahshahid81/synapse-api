@@ -10,4 +10,9 @@ docker run --name postgres-container -e POSTGRES_PASSWORD=LpAe7djAicW2f634kRr5 -
 docker exec -it postgres-container psql -U postgres;
 CREATE USER "synapse-db-admin" WITH  PASSWORD 'LpAe7djAicW2f634kRr5' CREATEDB;
 CREATE DATABASE "synapse-db";
-typeorm migration:run -d src/typeorm/data-source/index.ts
+GRANT USAGE on schema public to "synapse-db-admin";
+GRANT ALL PRIVILEGES on DATABASE "synapse-db" to "synapse-db-admin";
+postgres=# \c "synapse-db" postgres
+GRANT ALL ON SCHEMA public TO "synapse-db-admin";
+npx typeorm-ts-node-commonjs migration:run --dataSource ./src/config/typeorm.ts
+npx typeorm-ts-node-commonjs migration:show --dataSource ./src/config/typeorm.ts
