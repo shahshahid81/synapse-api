@@ -21,7 +21,8 @@
     "prepare": "husky",
     "commit": "cz",
     "migration:run": "typeorm-ts-node-commonjs migration:run --dataSource ./src/config/typeorm.ts",
-    "migration:status": "typeorm-ts-node-commonjs migration:show --dataSource ./src/config/typeorm.ts"
+    "migration:status": "typeorm-ts-node-commonjs migration:show --dataSource ./src/config/typeorm.ts",
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert --dataSource ./src/config/typeorm.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
