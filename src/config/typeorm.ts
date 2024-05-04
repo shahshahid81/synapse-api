@@ -1,9 +1,5 @@
-// import { ConfigService } from '@nestjs/config';
-// import { SnakeNamingStrategy } from 'src/typeorm/naming-strategy';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
-
-// const configService = new ConfigService();
 
 const config = {
   type: 'postgres',
@@ -12,9 +8,9 @@ const config = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  // namingStrategy: new SnakeNamingStrategy(),
   synchronize: false,
   autoLoadEntities: true,
+  migrations: ['database/migrations/*.ts'],
 };
 
 export const connectionSource = new DataSource(config as DataSourceOptions);

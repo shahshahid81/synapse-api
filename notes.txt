@@ -5,7 +5,6 @@ TODO:
     4. Add Login and Logout route.
     5. Dockerize the application and add docker compose with both db and api. 
 
-
 docker run --name postgres-container -e POSTGRES_PASSWORD=LpAe7djAicW2f634kRr5 -d -p 5432:5432 postgres;
 docker exec -it postgres-container psql -U postgres;
 CREATE USER "synapse-db-admin" WITH  PASSWORD 'LpAe7djAicW2f634kRr5' CREATEDB;
@@ -14,5 +13,3 @@ GRANT USAGE on schema public to "synapse-db-admin";
 GRANT ALL PRIVILEGES on DATABASE "synapse-db" to "synapse-db-admin";
 postgres=# \c "synapse-db" postgres
 GRANT ALL ON SCHEMA public TO "synapse-db-admin";
-npx typeorm-ts-node-commonjs migration:run --dataSource ./src/config/typeorm.ts
-npx typeorm-ts-node-commonjs migration:show --dataSource ./src/config/typeorm.ts 

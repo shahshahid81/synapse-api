@@ -1,15 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
-import { User } from 'src/users/user.entity';
-import BaseMigration from 'src/utils/base-migration';
 
-export class CreateUser1714500437917
-  extends BaseMigration
-  implements MigrationInterface
-{
+export class CreateUser1714500437917 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: this.getTableName(User.name),
+        name: 'tbl_users',
         columns: [
           {
             name: 'id',
@@ -44,6 +39,6 @@ export class CreateUser1714500437917
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable(this.getTableName(User.name));
+    await queryRunner.dropTable('tbl_users');
   }
 }
