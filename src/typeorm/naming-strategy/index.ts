@@ -1,3 +1,4 @@
+import * as pluralize from 'pluralize';
 import { DefaultNamingStrategy, NamingStrategyInterface } from 'typeorm';
 import { snakeCase } from 'typeorm/util/StringUtils';
 
@@ -5,8 +6,8 @@ export class SnakeNamingStrategy
   extends DefaultNamingStrategy
   implements NamingStrategyInterface
 {
-  override tableName(className: string, customName?: string): string {
-    return customName ? customName : 'tbl_' + snakeCase(className);
+  tableName(targetName: string, userSpecifiedName?: string): string {
+    return 'tbl_' + pluralize(userSpecifiedName || targetName).toLowerCase();
   }
 
   columnName(
@@ -14,52 +15,11 @@ export class SnakeNamingStrategy
     customName: string,
     embeddedPrefixes: string[],
   ): string {
-    return (
-      snakeCase(embeddedPrefixes.concat('').join('_')) +
-      (customName ? customName : snakeCase(propertyName))
-    );
-  }
+    const name = customName || propertyName;
 
-  relationName(propertyName: string): string {
-    return snakeCase(propertyName);
-  }
+    if (embeddedPrefixes.length)
+      return snakeCase(embeddedPrefixes.join('_')) + snakeCase(name);
 
-  joinColumnName(relationName: string, referencedColumnName: string): string {
-    return snakeCase(relationName + '_' + referencedColumnName);
-  }
-
-  joinTableName(
-    firstTableName: string,
-    secondTableName: string,
-    firstPropertyName: string,
-  ): string {
-    return snakeCase(
-      firstTableName +
-        '_' +
-        firstPropertyName.replace(/\./gi, '_') +
-        '_' +
-        secondTableName,
-    );
-  }
-
-  joinTableColumnName(
-    tableName: string,
-    propertyName: string,
-    columnName?: string,
-  ): string {
-    return snakeCase(
-      tableName + '_' + (columnName ? columnName : propertyName),
-    );
-  }
-
-  classTableInheritanceParentColumnName(
-    parentTableName: string,
-    parentTableIdPropertyName: string,
-  ): string {
-    return snakeCase(parentTableName + '_' + parentTableIdPropertyName);
-  }
-
-  eagerJoinRelationAlias(alias: string, propertyPath: string): string {
-    return alias + '__' + propertyPath.replace('.', '_');
+    return snakeCase(name);
   }
 }
