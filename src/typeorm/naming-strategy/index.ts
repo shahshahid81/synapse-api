@@ -7,7 +7,11 @@ export class SnakeNamingStrategy
   implements NamingStrategyInterface
 {
   tableName(targetName: string, userSpecifiedName?: string): string {
-    return 'tbl_' + pluralize(userSpecifiedName || targetName).toLowerCase();
+    if (userSpecifiedName) {
+      return userSpecifiedName;
+    }
+
+    return 'tbl_' + snakeCase(pluralize(targetName).toLowerCase());
   }
 
   columnName(

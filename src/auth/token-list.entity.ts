@@ -1,26 +1,26 @@
-import { TokenList } from 'src/auth/token-list.entity';
+import { User } from 'src/users/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
-export class User {
+@Entity('tbl_token_list')
+export class TokenList {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  email: string;
+  user_id: string;
+
+  @ManyToOne(() => User, (user) => user.tokens)
+  user: User;
 
   @Column()
-  password: string;
-
-  @Column({ default: true })
-  isActive: boolean;
+  token: string;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
@@ -31,7 +31,4 @@ export class User {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
-
-  @OneToMany(() => TokenList, (token) => token.user)
-  tokens: TokenList[];
 }

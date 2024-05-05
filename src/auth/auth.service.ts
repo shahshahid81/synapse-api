@@ -8,14 +8,19 @@ import { CreateUserDto } from 'src/users/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { LoginResponseType } from './auth.types';
 import { LoginUserDto } from 'src/users/login-user.dto';
-import { comparePassword } from 'src/utils/hash-utils';
+import { comparePassword, generateToken } from 'src/utils/hash-utils';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { TokenList } from './token-list.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    @InjectRepository(TokenList)
+    private tokenListRepository: Repository<TokenList>,
   ) {}
 
   async register(createUserDto: CreateUserDto): Promise<SuccessType> {
@@ -48,6 +53,11 @@ export class AuthService {
     }
 
     const token = await this.jwtService.signAsync({ email: loginUserDto });
+    const tokenList = await this.tokenListRepository.create({
+      user_id: user.id,
+      token: generateToken(),
+    });
+    await this.tokenListRepository.insert(tokenList);
     return { success: true, token };
   }
 }

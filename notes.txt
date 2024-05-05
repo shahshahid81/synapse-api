@@ -1,7 +1,8 @@
 TODO:
-    3. Check how to hash user password during registration.
-    4. Add Login and Logout route.
-    5. Dockerize the application and add docker compose with both db and api. 
+    Add Login and Logout route.
+        Issue with insert query, check naming strategy.
+    Clean up unnecessary code
+    Dockerize the application and add docker compose with both db and api. 
 
 docker run --name postgres-container -e POSTGRES_PASSWORD=LpAe7djAicW2f634kRr5 -d -p 5432:5432 postgres;
 docker exec -it postgres-container psql -U postgres;
