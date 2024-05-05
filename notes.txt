@@ -1,6 +1,4 @@
 TODO:
-    1. Setup migration.
-    2. Create User table.
     3. Check how to hash user password during registration.
     4. Add Login and Logout route.
     5. Dockerize the application and add docker compose with both db and api. 
@@ -13,3 +11,5 @@ GRANT USAGE on schema public to "synapse-db-admin";
 GRANT ALL PRIVILEGES on DATABASE "synapse-db" to "synapse-db-admin";
 postgres=# \c "synapse-db" postgres
 GRANT ALL ON SCHEMA public TO "synapse-db-admin";
+
+docker exec -it postgres-container psql -U synapse-db-admin -d synapse-db;
