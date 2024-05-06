@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -17,6 +18,7 @@ export class TokenList {
   user_id: string;
 
   @ManyToOne(() => User, (user) => user.tokens)
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @Column()
