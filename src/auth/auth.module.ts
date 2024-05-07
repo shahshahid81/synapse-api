@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { UsersModule } from 'src/users/users.module';
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TokenList } from './token-list.entity';
+import { TokenList } from '../tokenlist/token-list.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

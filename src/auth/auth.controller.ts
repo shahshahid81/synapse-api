@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
 import { SuccessType } from 'src/common/common.types';
 import { CreateUserDto } from 'src/users/create-user.dto';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from 'src/users/login-user.dto';
+import { ExtendedRequest } from 'src/common/extended-request.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -16,5 +17,11 @@ export class AuthController {
   @Post('/login')
   async login(@Body() loginUserDto: LoginUserDto): Promise<SuccessType> {
     return this.authService.login(loginUserDto);
+  }
+
+  @Post('/logout')
+  async logout(@Req() request: ExtendedRequest): Promise<SuccessType> {
+    console.log(request.user);
+    return this.authService.logout();
   }
 }

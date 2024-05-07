@@ -12,7 +12,7 @@ import { comparePassword, generateToken } from 'src/utils/hash-utils';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { TokenList } from './token-list.entity';
+import { TokenList } from '../tokenlist/token-list.entity';
 
 @Injectable()
 export class AuthService {
@@ -52,12 +52,16 @@ export class AuthService {
       return { success: false };
     }
 
-    const token = await this.jwtService.signAsync({ email: loginUserDto });
+    const token = generateToken();
     const tokenList = await this.tokenListRepository.create({
       user_id: user.id,
-      token: generateToken(),
+      token,
     });
     await this.tokenListRepository.insert(tokenList);
     return { success: true, token };
+  }
+
+  async logout(): Promise<LoginResponseType> {
+    return { success: true };
   }
 }

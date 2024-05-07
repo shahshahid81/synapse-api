@@ -1,4 +1,4 @@
-import { TokenList } from 'src/auth/token-list.entity';
+import { TokenList } from 'src/tokenlist/token-list.entity';
 import {
   Column,
   CreateDateColumn,
