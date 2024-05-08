@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableUnique } from 'typeorm';
 
 export class CreateUser1714500437917 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -38,6 +38,11 @@ export class CreateUser1714500437917 implements MigrationInterface {
           },
         ],
       }),
+    );
+
+    await queryRunner.createUniqueConstraint(
+      'tbl_users',
+      new TableUnique({ columnNames: ['email'] }),
     );
   }
 

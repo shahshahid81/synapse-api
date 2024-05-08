@@ -29,6 +29,7 @@ export class TokenlistService {
       throw new UnprocessableEntityException('Token not found');
     }
 
+    // TODO: use date time library or check for new native js date time support
     if (new Date(Date.now()) >= tokenList[0].expiresAt) {
       await this.tokenListRepository.delete(tokenList[0].id);
       throw new UnprocessableEntityException('Token expired');

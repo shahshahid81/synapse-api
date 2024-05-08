@@ -52,6 +52,7 @@ export class AuthService {
     }
 
     const token = generateToken();
+    // TODO: use date time library or check for new native js date time support
     const now = new Date();
     const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
 
