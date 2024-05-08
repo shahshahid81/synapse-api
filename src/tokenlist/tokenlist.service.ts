@@ -29,6 +29,11 @@ export class TokenlistService {
       throw new UnprocessableEntityException('Token not found');
     }
 
+    if (new Date(Date.now()) >= tokenList[0].expiresAt) {
+      await this.tokenListRepository.delete(tokenList[0].id);
+      throw new UnprocessableEntityException('Token expired');
+    }
+
     return tokenList[0].user;
   }
 }

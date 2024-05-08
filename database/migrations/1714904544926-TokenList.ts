@@ -3,6 +3,7 @@ import {
   QueryRunner,
   Table,
   TableForeignKey,
+  TableUnique,
 } from 'typeorm';
 
 export class TokenList1714904544926 implements MigrationInterface {
@@ -27,6 +28,10 @@ export class TokenList1714904544926 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'expires_at',
+            type: 'timestamp with time zone',
+          },
+          {
             name: 'created_at',
             type: 'timestamp with time zone',
             default: 'now()',
@@ -38,6 +43,11 @@ export class TokenList1714904544926 implements MigrationInterface {
           },
         ],
       }),
+    );
+
+    await queryRunner.createUniqueConstraint(
+      'tbl_token_list',
+      new TableUnique({ columnNames: ['user_id', 'token'] }),
     );
 
     await queryRunner.createForeignKey(

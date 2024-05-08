@@ -24,6 +24,9 @@ export class TokenList {
   @Column()
   token: string;
 
+  @Column({ type: 'timestamp' })
+  expiresAt: Date;
+
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 

@@ -13,6 +13,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TokenList } from '../tokenlist/token-list.entity';
+import { User } from 'src/users/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -53,15 +54,20 @@ export class AuthService {
     }
 
     const token = generateToken();
+    const now = new Date();
+    const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
+
     const tokenList = await this.tokenListRepository.create({
       user_id: user.id,
       token,
+      expiresAt: oneHourLater,
     });
     await this.tokenListRepository.insert(tokenList);
     return { success: true, token };
   }
 
-  async logout(): Promise<LoginResponseType> {
+  async logout(user: User, token: string): Promise<LoginResponseType> {
+    await this.tokenListRepository.delete({ user_id: user.id, token });
     return { success: true };
   }
 }

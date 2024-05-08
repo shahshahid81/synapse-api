@@ -1,7 +1,4 @@
 TODO:
-    Add Logout Route
-        Create Auth Guard Middleware.
-        Ensure to delete the token which is passed in headers.
     Clean up unnecessary code
         Remove JWT Code.
         Check for other unnecessary code also.
@@ -17,5 +14,5 @@ GRANT ALL PRIVILEGES on DATABASE "synapse-db" to "synapse-db-admin";
 postgres=# \c "synapse-db" postgres
 GRANT ALL ON SCHEMA public TO "synapse-db-admin";
 
-docker start postgres-container;
-docker exec -it postgres-container psql -U synapse-db-admin -d synapse-db;
+docker start postgres-container && docker logs -f postgres-container
+docker exec -it postgres-container psql -U synapse-db-admin -d synapse-db

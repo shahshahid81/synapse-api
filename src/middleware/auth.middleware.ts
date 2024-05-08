@@ -27,6 +27,7 @@ export class AuthMiddleware implements NestMiddleware {
     try {
       const user = await this.tokenListService.getUser(token);
       request.user = user;
+      request.token = token;
       next();
     } catch (err) {
       response
