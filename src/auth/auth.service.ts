@@ -9,7 +9,6 @@ import { UsersService } from 'src/users/users.service';
 import { LoginResponseType } from './auth.types';
 import { LoginUserDto } from 'src/users/login-user.dto';
 import { comparePassword, generateToken } from 'src/utils/hash-utils';
-import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TokenList } from '../tokenlist/token-list.entity';
@@ -19,7 +18,6 @@ import { User } from 'src/users/user.entity';
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService,
     @InjectRepository(TokenList)
     private tokenListRepository: Repository<TokenList>,
   ) {}
