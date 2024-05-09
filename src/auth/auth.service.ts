@@ -1,6 +1,7 @@
 import {
   Injectable,
   NotFoundException,
+  UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { SuccessType } from 'src/common/common.types';
@@ -48,7 +49,7 @@ export class AuthService {
     );
 
     if (!isPasswordEqual) {
-      return { success: false };
+      throw new UnauthorizedException('Incorrect Password');
     }
 
     const token = generateToken();
@@ -65,7 +66,7 @@ export class AuthService {
     return { success: true, token };
   }
 
-  async logout(user: User, token: string): Promise<LoginResponseType> {
+  async logout(user: User, token: string): Promise<SuccessType> {
     await this.tokenListRepository.delete({ user_id: user.id, token });
     return { success: true };
   }

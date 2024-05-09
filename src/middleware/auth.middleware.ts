@@ -1,4 +1,8 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import {
+  Injectable,
+  NestMiddleware,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { NextFunction, Response } from 'express';
 import { ExtendedRequest } from 'src/common/extended-request.interface';
 import { TokenlistService } from 'src/tokenlist/tokenlist.service';
@@ -16,11 +20,7 @@ export class AuthMiddleware implements NestMiddleware {
       request.headers.authorization || request.headers.Authorization;
 
     if (!authorization || typeof authorization !== 'string') {
-      response.status(401).json({
-        success: false,
-        message: 'Unauthorized: Missing authorization header',
-      });
-      return;
+      throw new UnauthorizedException('Missing authorization header');
     }
 
     const token = authorization.split(' ')[1];
@@ -30,10 +30,7 @@ export class AuthMiddleware implements NestMiddleware {
       request.token = token;
       next();
     } catch (err) {
-      response
-        .status(401)
-        .json({ success: false, message: err?.message || 'Invalid token' });
-      return;
+      throw new UnauthorizedException(err?.message || 'Invalid token');
     }
   }
 }
