@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { TokenList } from './token-list.entity';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class TokenlistService {
@@ -20,8 +21,8 @@ export class TokenlistService {
           id: true,
           email: true,
           isActive: true,
-          createdAt: true,
-          updatedAt: true,
+          createdAt: {},
+          updatedAt: {},
         },
       },
     });
@@ -29,8 +30,7 @@ export class TokenlistService {
       throw new UnprocessableEntityException('Token not found');
     }
 
-    // TODO: use date time library or check for new native js date time support
-    if (new Date(Date.now()) >= tokenList[0].expiresAt) {
+    if (DateTime.now() > tokenList[0].expiresAt) {
       await this.tokenListRepository.delete(tokenList[0].id);
       throw new UnprocessableEntityException('Token expired');
     }

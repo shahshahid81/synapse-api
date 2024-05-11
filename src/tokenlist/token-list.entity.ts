@@ -1,4 +1,6 @@
+import { DateTime } from 'luxon';
 import { User } from 'src/users/user.entity';
+import { getDateTransformer } from 'src/utils/date-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -25,16 +27,21 @@ export class TokenList {
   @Column()
   token: string;
 
-  @Column({ type: 'timestamp' })
-  expiresAt: Date;
+  @Column({ type: 'timestamp', transformer: getDateTransformer() })
+  expiresAt: DateTime;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    transformer: getDateTransformer(),
+  })
+  createdAt: DateTime;
 
   @UpdateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
+    transformer: getDateTransformer(),
   })
-  updatedAt: Date;
+  updatedAt: DateTime;
 }

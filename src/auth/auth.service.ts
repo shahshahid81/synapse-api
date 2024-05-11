@@ -14,6 +14,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TokenList } from '../tokenlist/token-list.entity';
 import { User } from 'src/users/user.entity';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class AuthService {
@@ -53,10 +54,7 @@ export class AuthService {
     }
 
     const token = generateToken();
-    // TODO: use date time library or check for new native js date time support
-    const now = new Date();
-    const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
-
+    const oneHourLater = DateTime.now().plus({ hour: 1 });
     const tokenList = await this.tokenListRepository.create({
       user_id: user.id,
       token,

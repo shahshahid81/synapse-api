@@ -1,4 +1,6 @@
+import { DateTime } from 'luxon';
 import { TokenList } from 'src/tokenlist/token-list.entity';
+import { getDateTransformer } from 'src/utils/date-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -22,15 +24,20 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    transformer: getDateTransformer(),
+  })
+  createdAt: DateTime;
 
   @UpdateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
+    transformer: getDateTransformer(),
   })
-  updatedAt: Date;
+  updatedAt: DateTime;
 
   @OneToMany(() => TokenList, (token) => token.user)
   tokens: TokenList[];
