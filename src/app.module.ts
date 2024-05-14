@@ -19,13 +19,6 @@ import { TokenlistModule } from './tokenlist/tokenlist.module';
     AuthModule,
     UsersModule,
     TypeOrmModule.forRootAsync({
-      imports: [
-        // TODO: remove duplicate ConfigModule Registration
-        ConfigModule.forRoot({
-          validate,
-          load: [configuration],
-        }),
-      ],
       inject: [ConfigService],
       useFactory: getTypeOrmModuleConfig,
     }),

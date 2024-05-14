@@ -38,6 +38,9 @@ class EnvironmentVariables {
 
   @IsString()
   DB_NAME: string;
+
+  @IsString()
+  SECRET_KEY: string;
 }
 
 export function validate(

@@ -67,7 +67,10 @@ export class AuthService {
   }
 
   async logout(user: User, token: string): Promise<SuccessType> {
-    await this.tokenListRepository.delete({ user_id: user.id, token });
+    await this.tokenListRepository.delete({
+      user_id: user.id,
+      token: hash(token),
+    });
     return { success: true };
   }
 }
