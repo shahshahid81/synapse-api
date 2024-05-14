@@ -12,6 +12,7 @@ import { TokenlistModule } from './tokenlist/tokenlist.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       validate,
       load: [configuration],
     }),

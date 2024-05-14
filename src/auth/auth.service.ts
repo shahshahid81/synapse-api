@@ -15,10 +15,13 @@ import { Repository } from 'typeorm';
 import { TokenList } from '../tokenlist/token-list.entity';
 import { User } from 'src/users/user.entity';
 import { DateTime } from 'luxon';
+import { ConfigService } from '@nestjs/config';
+import { encrypt } from 'src/utils/encryption-utils';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private configService: ConfigService,
     private usersService: UsersService,
     @InjectRepository(TokenList)
     private tokenListRepository: Repository<TokenList>,
@@ -61,7 +64,7 @@ export class AuthService {
       expiresAt: oneHourLater,
     });
     await this.tokenListRepository.insert(tokenList);
-    return { success: true, token };
+    return { success: true, token: encrypt(this.configService, token) };
   }
 
   async logout(user: User, token: string): Promise<SuccessType> {
