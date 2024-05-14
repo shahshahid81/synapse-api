@@ -9,14 +9,13 @@ import { CreateUserDto } from 'src/users/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { LoginResponseType } from './auth.types';
 import { LoginUserDto } from 'src/users/login-user.dto';
-import { comparePassword, generateToken } from 'src/utils/hash-utils';
+import { comparePassword, generateToken, hash } from 'src/utils/hash-utils';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TokenList } from '../tokenlist/token-list.entity';
 import { User } from 'src/users/user.entity';
 import { DateTime } from 'luxon';
 import { ConfigService } from '@nestjs/config';
-import { encrypt } from 'src/utils/encryption-utils';
 
 @Injectable()
 export class AuthService {
@@ -58,13 +57,13 @@ export class AuthService {
 
     const token = generateToken();
     const oneHourLater = DateTime.now().plus({ hour: 1 });
-    const tokenList = await this.tokenListRepository.create({
+    const tokenList = this.tokenListRepository.create({
       user_id: user.id,
-      token,
+      token: hash(token),
       expiresAt: oneHourLater,
     });
     await this.tokenListRepository.insert(tokenList);
-    return { success: true, token: encrypt(this.configService, token) };
+    return { success: true, token };
   }
 
   async logout(user: User, token: string): Promise<SuccessType> {

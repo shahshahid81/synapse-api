@@ -4,8 +4,8 @@ import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { TokenList } from './token-list.entity';
 import { DateTime } from 'luxon';
-import { decrypt } from 'src/utils/encryption-utils';
 import { ConfigService } from '@nestjs/config';
+import { hash } from 'src/utils/hash-utils';
 
 @Injectable()
 export class TokenlistService {
@@ -16,10 +16,10 @@ export class TokenlistService {
   ) {}
 
   async getUser(token: string): Promise<User> {
-    const decryptedToken = decrypt(this.configService, token);
+    const hashedToken = hash(token);
     const tokenList = await this.tokenListRepository.find({
       relations: { user: true },
-      where: { token: decryptedToken, user: { isActive: true } },
+      where: { token: hashedToken, user: { isActive: true } },
       select: {
         user: {
           id: true,
