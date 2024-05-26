@@ -151,6 +151,6 @@ export class AuthController {
   })
   @Post('/logout')
   async logout(@Req() request: ExtendedRequest): Promise<SuccessType> {
-    return this.authService.logout(request.user, request.token);
+    return this.authService.logout(request.user.id, request.token);
   }
 }

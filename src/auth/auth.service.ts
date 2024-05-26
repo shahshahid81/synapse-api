@@ -13,14 +13,11 @@ import { comparePassword, generateToken, hash } from 'src/utils/hash-utils';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TokenList } from '../tokenlist/token-list.entity';
-import { User } from 'src/users/user.entity';
 import { DateTime } from 'luxon';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private configService: ConfigService,
     private usersService: UsersService,
     @InjectRepository(TokenList)
     private tokenListRepository: Repository<TokenList>,
@@ -66,9 +63,9 @@ export class AuthService {
     return { success: true, token };
   }
 
-  async logout(user: User, token: string): Promise<SuccessType> {
+  async logout(userId: string, token: string): Promise<SuccessType> {
     await this.tokenListRepository.delete({
-      user_id: user.id,
+      user_id: userId,
       token: hash(token),
     });
     return { success: true };

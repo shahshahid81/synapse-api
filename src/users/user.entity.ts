@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -40,5 +41,6 @@ export class User {
   updatedAt: DateTime;
 
   @OneToMany(() => TokenList, (token) => token.user)
-  tokens: TokenList[];
+  @JoinColumn({ name: 'id' })
+  tokens?: TokenList[];
 }

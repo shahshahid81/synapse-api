@@ -4,7 +4,6 @@ import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { TokenList } from './token-list.entity';
 import { DateTime } from 'luxon';
-import { ConfigService } from '@nestjs/config';
 import { hash } from 'src/utils/hash-utils';
 
 @Injectable()
@@ -12,7 +11,6 @@ export class TokenlistService {
   constructor(
     @InjectRepository(TokenList)
     private tokenListRepository: Repository<TokenList>,
-    private configService: ConfigService,
   ) {}
 
   async getUser(token: string): Promise<User> {
