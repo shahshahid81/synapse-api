@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
 import { DateTime } from 'luxon';
 import { hashPassword } from 'src/utils/hash-utils';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { TokenList } from 'src/tokenlist/token-list.entity';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -20,7 +22,7 @@ describe('AuthService', () => {
           },
         },
         {
-          provide: 'TokenListRepository',
+          provide: getRepositoryToken(TokenList),
           useValue: {
             create: jest.fn(),
             insert: jest.fn(),
