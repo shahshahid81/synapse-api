@@ -1,6 +1,5 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import configuration from 'config/configuration';
 import { validate } from 'env.validate';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
@@ -14,7 +13,7 @@ import { TokenlistModule } from './tokenlist/tokenlist.module';
     ConfigModule.forRoot({
       isGlobal: true,
       validate,
-      load: [configuration],
+      envFilePath: '.env.development.local',
     }),
     AuthModule,
     UsersModule,

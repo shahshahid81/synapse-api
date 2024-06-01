@@ -6,6 +6,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 const getDataSourceConfig = (
   configService: ConfigService,
 ): DataSourceOptions => {
+  console.log({ configService });
   return {
     type: 'postgres',
     host: configService.get('DB_HOST'),
@@ -26,6 +27,10 @@ export const getTypeOrmModuleConfig = (
   configService: ConfigService,
 ): TypeOrmModuleOptions => {
   const dataSource = getDataSourceConfig(configService);
+  console.log({
+    ...dataSource,
+    autoLoadEntities: true,
+  });
   return {
     ...dataSource,
     autoLoadEntities: true,

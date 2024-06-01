@@ -17,13 +17,16 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:integration": "docker compose --project-name integration-test -f docker-compose.test.yml --env-file .env.test.local up --build --force-recreate -V --abort-on-container-exit --exit-code-from api",
+    "test:e2e": "jest --config ./test/jest-e2e.config.ts",
     "prepare": "husky",
     "commit": "cz",
     "migration:create": "typeorm-ts-node-commonjs migration:create database/migrations/",
     "migration:run": "typeorm-ts-node-commonjs migration:run --dataSource ./config/typeorm.ts",
     "migration:status": "typeorm-ts-node-commonjs migration:show --dataSource ./config/typeorm.ts",
-    "migration:revert": "typeorm-ts-node-commonjs migration:revert --dataSource ./config/typeorm.ts"
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert --dataSource ./config/typeorm.ts",
+    "docker:up": "docker compose -f docker-compose.local.yml --env-file .env.development.local up",
+    "docker:down": "docker compose -f docker-compose.local.yml --env-file .env.development.local down"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
