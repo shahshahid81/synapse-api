@@ -2,11 +2,11 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from '../naming-strategy';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { Environment } from 'src/common/common.enums';
 
 const getDataSourceConfig = (
   configService: ConfigService,
 ): DataSourceOptions => {
-  console.log({ configService });
   return {
     type: 'postgres',
     host: configService.get('DB_HOST'),
@@ -15,7 +15,7 @@ const getDataSourceConfig = (
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_NAME'),
     namingStrategy: new SnakeNamingStrategy(),
-    synchronize: false,
+    synchronize: configService.get('NODE_ENV') === Environment.TEST,
   };
 };
 
@@ -27,10 +27,6 @@ export const getTypeOrmModuleConfig = (
   configService: ConfigService,
 ): TypeOrmModuleOptions => {
   const dataSource = getDataSourceConfig(configService);
-  console.log({
-    ...dataSource,
-    autoLoadEntities: true,
-  });
   return {
     ...dataSource,
     autoLoadEntities: true,

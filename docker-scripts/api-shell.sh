@@ -1,2 +1,2 @@
 #!/bin/bash
-docker compose exec -it api sh
+docker compose -f docker-compose.local.yml --env-file .env.development.local exec -it api sh

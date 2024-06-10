@@ -68,6 +68,25 @@ export class AuthController {
   }
 
   @ApiResponse({
+    status: 400,
+    content: {
+      'application/json': {
+        example: {
+          message: [
+            'email must be an email',
+            'email should not be empty',
+            'password must be shorter than or equal to 32 characters',
+            'password must be longer than or equal to 8 characters',
+            'password must be a string',
+            'password should not be empty',
+          ],
+          error: 'Bad Request',
+          statusCode: 400,
+        },
+      },
+    },
+  })
+  @ApiResponse({
     status: 404,
     content: {
       'application/json': {
