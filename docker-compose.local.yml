@@ -1,0 +1,37 @@
+services:
+  database:
+    container_name: ${NODE_ENV}-database
+    image: postgres:16.2-alpine
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    restart: unless-stopped
+    volumes:
+      - .postgres-data/:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          memory: 2000M
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+  api:
+    container_name: ${NODE_ENV}-api
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+      tags:
+        - ${NODE_ENV}-api
+    depends_on:
+      - database
+    ports:
+      - '${PORT}:${PORT}'
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /app/.postgres-data/
+      - /app/node_modules/
+    deploy:
+      resources:
+        limits:
+          memory: 2000M
