@@ -26,7 +26,9 @@
     "migration:status": "typeorm-ts-node-commonjs migration:show --dataSource ./config/typeorm.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert --dataSource ./config/typeorm.ts",
     "docker:up": "docker compose -f docker-compose.local.yml --env-file .env.development.local up",
-    "docker:down": "docker compose -f docker-compose.local.yml --env-file .env.development.local down"
+    "docker:down": "docker compose -f docker-compose.local.yml --env-file .env.development.local down",
+    "docker:api-shell": "docker compose -f docker-compose.local.yml --env-file .env.development.local exec -it api sh",
+    "docker:psql": "docker compose -f docker-compose.local.yml --env-file .env.development.local exec -it database psql -U synapse-db-admin -d synapse-db"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
