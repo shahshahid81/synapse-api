@@ -59,8 +59,7 @@ describe('TokenlistService', () => {
       ];
       jest
         .spyOn(tokenListRepository, 'find')
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .mockImplementationOnce(async (_payload: unknown) => users);
+        .mockImplementationOnce(async () => users);
       jest.spyOn(tokenListService, 'getUser');
 
       const response = await tokenListService.getUser(token);

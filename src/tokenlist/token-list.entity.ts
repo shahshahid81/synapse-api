@@ -11,7 +11,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-// TODO: Handle class name case in naming strategy file
 @Entity('tbl_token_list')
 export class TokenList {
   @PrimaryGeneratedColumn('uuid')
