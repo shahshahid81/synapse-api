@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('tbl_city_masters')
 export class CityMaster {
   @PrimaryGeneratedColumn('uuid')
   id: string;
