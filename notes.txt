@@ -1,0 +1,120 @@
+Why do we need profile? 
+What should the profile include?
+At what step will we take which data?
+How to seed data Nestjs?
+
+How to create a company page linkedin?
+We need profile so that another users can view the details of the user.
+
+There should be first name and last name.
+City and Country. (Check if there is an external api or master data where we will get the name of all city and state for India.) (Should this app be specific to India? If we can find data of all other cities and countries, we don't need to make it specific to india.) (https://github.com/dr5hn/countries-states-cities-database?tab=readme-ov-file)
+
+Since the main purpose of the app is professional network, there should be a profile picture, current job designation and current company. If no job, there should be I am a student button (Do we need I am a student button or should we provide the option to skip?) (There can be a I am a fresher button instead.) (If company page exists, it should be selected else add string. Difference will be that for company page, there will be link of people belonging to the same company and icon will be visible else use default logo) (https://github.com/jneidel/job-titles/blob/master/job-titles.json) (https://github.com/dariusk/corpora/blob/master/data/corporations/industries.json)
+
+Email confirmation service.
+
+Company page should have company name, company website, image of logo, industry, company size, company type, company tagline(like headline of profile), description, phone number, year founded, locations. It will only be visible once approved from admin.
+    {
+      "company_size": {
+        "1-10": "Small",
+        "11-50": "Small",
+        "51-200": "Medium",
+        "201-500": "Medium",
+        "501-1000": "Large",
+        "1000+": "Enterprise"
+      },
+      "company_type": {
+        "PUBLIC": "Public Company",
+        "PRIVATE": "Private Company",
+        "SOLE_PROPRIETORSHIP": "Sole Proprietorship",
+        "PARTNERSHIP": "Partnership",
+        "NON_PROFIT": "Non-Profit Organization",
+        "GOVERNMENT": "Government Agency",
+        "COLLEGE_UNIVERSITY": "Educational Institution",
+        "OTHER": "Other"
+      }
+    }
+
+Service to find users and companies once the profile is verified.
+
+Tasks:
+
+Define the DB Structure and the APIs needed.
+
+DB Structure:
+tbl_profile_registrations -> It will store the data of the users till they are verified.
+  id
+  created_at
+  updated_at
+  user_id
+  current_step -> to store which screen should be next visible to users
+  first_name
+  last_name
+  city -> to be picked from master
+  country -> to be picked from master
+  designation -> to be picked from master
+  company -> to be picked from master or use string value if not available
+  industry -> to be picked from master
+  is_fresher -> to be used to avoid asking for company and designation
+
+tbl_profiles -> It will store the data of the user once the verification is done.
+  id
+  created_at
+  updated_at
+  user_id
+  first_name
+  last_name
+  city -> to be picked from master
+  country -> to be picked from master
+  profile_picture_url -> check https://github.com/localstack/localstack or minio or other local s3 alternatives
+  thumbnail_url -> generate it once the profile picture is uploaded as a small optimized image
+  designation -> to be picked from master
+  company -> to be picked from master or use string value if not available
+  industry -> to be picked from master
+  is_fresher -> to be used to avoid asking for company and designation
+
+tbl_city_master
+tbl_country_master
+tbl_designation_master
+tbl_industry_master
+tbl_company_size_master
+tbl_company_type_master
+  id
+  created_at
+  updated_at
+  value
+  label
+
+tbl_company_pages
+  id
+  user_id
+  status -> APPROVED / REJECTED / PENDING / BLOCKED
+  name
+  logo
+  thumbnail_url -> generate it once the logo is uploaded as a small optimized image
+  website
+  industry
+  size -> to be picked from master
+  type -> to be picked from master
+  tagline
+  description
+  phone_number
+  year_founded
+  locations
+
+APIs:
+GET  /master/city
+GET  /master/country
+GET  /master/designation
+GET  /master/industry
+GET  /master/company-size
+GET  /master/company-type
+
+GET  /registration/profile/:userId
+POST /registration/profile/name -> first_name, last_name
+POST /registration/profile/location -> city, country
+POST /registration/profile/occupation -> designation, company, industry or is_fresher
+POST /registration/profile/verify -> to verify profile with otp
+POST /registration/profile/send-verification-code -> to send otp for verification
+GET /registration/profile/recommended-connections -> define logic to show recommended connections
+POST /registration/profile/photo
