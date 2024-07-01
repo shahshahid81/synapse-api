@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmModuleConfig } from './typeorm/data-source';
 import { TokenlistModule } from './tokenlist/tokenlist.module';
 import { RouteMiddlewareModule } from './routemiddleware/routemiddleware.module';
+import { MasterDataModule } from './master-data/master-data.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { RouteMiddlewareModule } from './routemiddleware/routemiddleware.module'
     }),
     TokenlistModule,
     RouteMiddlewareModule,
+    MasterDataModule,
   ],
   controllers: [],
   providers: [],

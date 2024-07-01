@@ -7,10 +7,12 @@ import {
 } from 'typeorm';
 
 export class TokenList1714904544926 implements MigrationInterface {
+  private readonly tableName = 'tbl_token_list';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'tbl_token_list',
+        name: this.tableName,
         columns: [
           {
             name: 'id',
@@ -46,12 +48,12 @@ export class TokenList1714904544926 implements MigrationInterface {
     );
 
     await queryRunner.createUniqueConstraint(
-      'tbl_token_list',
+      this.tableName,
       new TableUnique({ columnNames: ['user_id', 'token'] }),
     );
 
     await queryRunner.createForeignKey(
-      'tbl_token_list',
+      this.tableName,
       new TableForeignKey({
         columnNames: ['user_id'],
         referencedColumnNames: ['id'],
@@ -62,6 +64,6 @@ export class TokenList1714904544926 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('tbl_token_list');
+    await queryRunner.dropTable(this.tableName);
   }
 }

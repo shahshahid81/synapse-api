@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.config.ts",
     "prepare": "husky",
     "commit": "cz",
-    "migration:create": "typeorm-ts-node-commonjs migration:create database/migrations/",
+    "migration:create": "typeorm-ts-node-commonjs migration:create database/migrations/${npm_config_file}",
     "migration:run": "typeorm-ts-node-commonjs migration:run --dataSource ./config/typeorm.ts",
     "migration:status": "typeorm-ts-node-commonjs migration:show --dataSource ./config/typeorm.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert --dataSource ./config/typeorm.ts",

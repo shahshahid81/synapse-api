@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table, TableUnique } from 'typeorm';
 
-export class CreateUser1714500437917 implements MigrationInterface {
-  private readonly tableName = 'tbl_users';
+export class CreateCityMaster1719859719321 implements MigrationInterface {
+  private readonly tableName = 'tbl_city_masters';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
@@ -16,17 +16,12 @@ export class CreateUser1714500437917 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'email',
+            name: 'label',
             type: 'varchar',
           },
           {
-            name: 'password',
+            name: 'value',
             type: 'varchar',
-          },
-          {
-            name: 'is_active',
-            type: 'boolean',
-            default: 'true',
           },
           {
             name: 'created_at',
@@ -44,7 +39,7 @@ export class CreateUser1714500437917 implements MigrationInterface {
 
     await queryRunner.createUniqueConstraint(
       this.tableName,
-      new TableUnique({ columnNames: ['email'] }),
+      new TableUnique({ columnNames: ['value', 'label'] }),
     );
   }
 
